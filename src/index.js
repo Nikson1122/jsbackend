@@ -1,21 +1,20 @@
 // require("dotenv").config({path: "./.env"}); This is old method
 import dotenv from "dotenv"
-import express from 'express';
+import {app} from './app.js'
 
 import connectDb from "./db/index.js";
 
 dotenv.config({
     
     path: "./.env"}); // Load environment variables from .env file
-    const app = express();
+  
 
 connectDb()
 .then(() =>{
     app.listen(process.env.PORT ||8000, () => {
 
-        console.log(` Serve is running at port: ${process.env.PORT ||8000}`, () => {
-            process.env.PORT
-        });
+        console.log(`⚙️ Serve is running at port: ${process.env.PORT}`);  
+    
         
     })
 
