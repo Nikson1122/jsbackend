@@ -5,13 +5,15 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const registerUser = asyncHandler(async (req, res) => {
-    res.status(200).json({message:"ok"})
-    // const { fullname, email, username, password } = req.body;
-    // console.log("email:", email);
+    // res.status(200).json({message:"ok"}) This is used to check small data if the data are going to postman or not through api
+    const { fullname, email, username, password } = req.body;
+    console.log("email:", email);
 
     // Validation
-    if (!fullname || !email || !username || !password) {
-        throw new ApiError(400, "All fields are required");
+    if (
+     [fullname, email, username, password].some((field) => field?.trim() === "")
+    ) {
+        throw new ApiError(400, "All fields are required")
     }
 
     // Check if user already exists
@@ -25,6 +27,8 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // Get uploaded file paths
     const avatarLocalPath = req.files?.avatar?.[0]?.path;
+    console.log("FILES RECEIVED:", req.files);
+
     const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
 
     if (!avatarLocalPath) {
